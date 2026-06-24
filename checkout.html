@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Direct Verification | EL KASS VENTURES</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .form-group { margin-bottom: 1.5rem; }
+    label { display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    input { width: 100%; background: var(--panel-bg); border: 1px solid var(--border-line); padding: 0.8rem; color: var(--text-main); font-family: var(--font-system); }
+    input:focus { border-color: var(--accent-blue); outline: none; }
+  </style>
+</head>
+<body>
+
+<header>
+  <nav class="navbar">
+    <a href="index.html" class="logo">EL KASS VENTURES.</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Browse Catalog</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="catalog-section" style="max-width: 600px; margin: 0 auto;">
+  <h2 style="font-size: 2rem; font-weight: 500; margin-bottom: 2rem;">Secure Checkout Matrix</h2>
+  
+  <form id="orderForm">
+    <div class="form-group">
+      <label>Target Device Model</label>
+      <input type="text" id="deviceModel" readonly style="opacity: 0.7; cursor: not-allowed;">
+    </div>
+
+    <div class="form-group">
+      <label>Storage Size</label>
+      <input type="text" id="deviceStorage" readonly style="opacity: 0.7; cursor: not-allowed;">
+    </div>
+
+    <div class="form-group">
+      <label>Your Full Name</label>
+      <input type="text" id="customerName" placeholder="Enter your name" required>
+    </div>
+
+    <div class="form-group">
+      <label>Delivery Destination / Delivery Point</label>
+      <input type="text" id="customerLocation" placeholder="Provide drop-off address" required>
+    </div>
+
+    <button type="submit" class="action-cta" style="cursor: pointer; margin-top: 1rem;">Finalize Invoice on WhatsApp</button>
+  </form>
+</section>
+
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const selectedModel = urlParams.get('model') || "iPhone 17 Pro Max";
+  const selectedStorage = urlParams.get('storage') || "256GB";
+
+  document.getElementById('deviceModel').value = decodeURIComponent(selectedModel);
+  document.getElementById('deviceStorage').value = decodeURIComponent(selectedStorage);
+
+  document.getElementById('orderForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const STORE_WHATSAPP = "233208530897"; 
+    
+    const model = document.getElementById('deviceModel').value;
+    const storage = document.getElementById('deviceStorage').value;
+    const name = document.getElementById('customerName').value;
+    const location = document.getElementById('customerLocation').value;
+    
+    const message = `✨ NEW ORDER | EL KASS VENTURES ✨\n\n` +
+                    `📱 Device Model: ${model}\n` +
+                    `💾 Storage Tier: ${storage}\n` +
+                    `👤 Buyer Name: ${name}\n` +
+                    `📍 Delivery To: ${location}\n\n` +
+                    `Please check stock availability and send payment information. Thank you!`;
+                    
+    const targetUrl = `https://wa.me/${STORE_WHATSAPP}?text=${encodeURIComponent(message)}`;
+    window.open(targetUrl, '_blank');
+  });
+</script>
+
+<footer>Jake-Labs © 2026</footer>
+</body>
+</html>
